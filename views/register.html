@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <form action="/register" method="POST">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" minlength="1" maxlength="50" required>
+      <br><br>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" minlength="1" maxlength="256" required>
+      <br><br>
+      
+      <label for="birthdate">Birthdate:</label>
+      <input type="date" id="birthdate" name="birthdate" required>
+      <br><br>
+      
+      <label for="role">Role:</label>
+      <select id="role" name="role">
+        <option value="reserver">Reserver</option>
+        <option value="administrator">Administrator</option>
+      </select>
+      <br><br>
+      
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</body>
+</html>
