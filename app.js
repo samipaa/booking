@@ -7,6 +7,27 @@ import { z } from "https://deno.land/x/zod/mod.ts";
 
 const app = new Hono();
 
+// restrict content to same origin
+
+const csp = `
+  default-src 'self';
+  script-src 'self';
+  style-src 'self';
+  img-src 'self' data:;
+  connect-src 'self';
+  font-src 'self';
+  frame-src 'none';
+  base-uri 'self';
+  form-action 'self';
+`;
+
+
+app.use('*', async (c, next) => {
+  c.header("Content-Security-Policy", csp);
+  c.header("X-Content-Type-Options", "nosniff");
+  await next();
+});
+
 app.use('/static/*', serveStatic({ root: './' }));
 
 app.get('/register', async (c) => {
