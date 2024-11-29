@@ -1,6 +1,7 @@
 import { z } from "https://deno.land/x/zod/mod.ts";
 import client from "../db/db.js";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
+import { serve_static_file } from "../helpers.js";
 
 const register_schema = z.object({
 	email: z.string().min(6, "email is too short").max(256, "email is too long").email("invalid email format"),
@@ -10,14 +11,14 @@ const register_schema = z.object({
 });
 
 export async function register_view(c) {
-    return c.html(await Deno.readTextFile('./views/register.html'));
+    return await serve_static_file("./views/register.html", "text/html");
 }
 
-export async function register(c) {
-	const body = await c.req.parseBody();
-
+export async function register(req, info) {
     try {
-		const { email, password, birthdate, role } = register_schema.parse(body);
+		const form = await req.formData();
+		const data = Object.fromEntries(form.entries());
+		const { email, password, birthdate, role } = register_schema.parse(data);
 
 		const salt = await bcrypt.genSalt(10);
 
@@ -30,14 +31,14 @@ export async function register(c) {
 			birthdate
 		);
 
-		return c.text('user registered successfully');
+		return new Response(null, { status: 302, headers: { location: "/" } });
 	}
 	catch (error) {
 		if (error instanceof z.ZodError) {
-			return c.text(`${error.errors.map(e => e.message).join(", ")}`, 400);
+			return new Response(`${error.errors.map(e => e.message).join(", ")}`, { status: 400 });
 		}
 
 		console.error(error);
-		return c.text('error during registration', 500);
+		return new Response("registration error", { status: 400 });
 	}
 }

@@ -26,6 +26,13 @@ CREATE TABLE lfw2se_reservations (
     CHECK (reservation_end > reservation_start)
 );
 
+CREATE TABLE lfw2se_login_logs (
+    log_id SERIAL PRIMARY KEY,
+    user_token UUID NOT NULL REFERENCES lfw2se_users(user_token) ON DELETE CASCADE,
+    login_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(45) NOT NULL
+);
+
 CREATE TABLE lfw2se_admin_logs (
     log_id SERIAL PRIMARY KEY,
     admin_id INT REFERENCES lfw2se_users(user_id),
