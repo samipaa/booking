@@ -1,7 +1,7 @@
-#Note:
-##The supplied TheBookingSystemVer1.zip was tested for this report, not my own version
+# Note:
+## The supplied TheBookingSystemVer1.zip was tested for this report, not my own version
 ---
-###Security:
+### Security:
 1.  Anyone can be an administrator
     -   Found while using the app and looking through the source code
     -   The option is given to everyone on the registration page
@@ -21,7 +21,7 @@
     -   Only your own reservation should be identifiable
     -   getReservationsWithUser() should be edited
 ---
-###Other:
+### Other:
 1.  No registration age check
     -   Found while using the app and looking through the source code
     -   It's possible to register as almost 2024 years old or born in the future
